@@ -1,0 +1,258 @@
+
+
+
+html, body, #app #app>div  {
+  height: 100%;
+  overscroll-behavior: none;
+  padding: 0px;
+  margin: 0px;
+  font-family: "Roboto", Arial, sans-serif;
+}
+p,a,li,ol,span,button {
+  padding: 0px;
+  margin: 0px;
+}
+.blue{
+  color: #27aae1;
+}
+
+.section{
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  
+}
+.section .s-container{
+  /* height: 100%;
+  max-width: 1180px;
+  background: ; */
+  background: #ddd;
+  height: 700px;
+  width: 1180px;
+}
+.section .s-container .exam-box{
+  box-sizing: border-box;
+  padding: 40px 30px 24px 30px;
+  height: 100%;
+  width: 100%;
+  
+  
+}
+.section .s-container .exam-box .exam-title{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #EEE;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  font-weight: 300;
+  
+  
+}
+.section .s-container .exam-box .exam-title span{
+  font-size: 1.2rem;
+  font-weight: 900;
+  
+  
+}
+.section .s-container .exam-box .exam-title p{
+  font-size: 0.8rem;
+  
+
+  
+}
+.section .s-container .exam-box .test-description{
+  display: flex;
+  align-items: center;
+  height: 86px;
+  width: 100%;
+}
+.section .s-container .exam-box .test-description p{
+  font-size: 0.9rem;
+}
+.section .s-container .exam-box .test-question{
+  margin: 20px 0 20px 0px;
+  font-size: 1.2rem;
+ 
+
+}
+.section .s-container .exam-box .test-answers {
+  width: 100%;
+  height: 140px;
+  margin-bottom: 20px ;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.section .s-container .exam-box .test-answers .test-answer label{
+  font-size: 0.9rem;
+  
+}
+.section .s-container .exam-box .test-buttons{
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.section .s-container .exam-box .test-buttons a{
+  height: 40px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #27aae1;
+  border-radius: 0.2rem;
+  border: 1px solid #27aae1;
+  color:white
+}
+.section .s-container .exam-box .test-buttons a:hover{
+  background: #fff;
+  cursor: pointer;
+  color: #27aae1;
+}
+
+.section .s-container .exam-box .test-progressbar{
+  width: 100%;
+  height: 25px;
+  margin-bottom: 20px;
+  
+}
+.section .s-container .exam-box .test-progressbar p{
+  
+}
+.section .s-container .exam-box .test-progressbar .progressbar{
+  width: 100%;
+  height: 10px;
+  background: #EEE;
+  border-radius: 0.2rem;
+  
+  
+}
+.section .s-container .exam-box .test-progressbar p{
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+
+}
+.section .s-container .exam-box .test-progressbar .progressbar div{
+  height: 10px;
+  background: #27aae1;
+  transition: 0.3s ease-in;
+  border-radius: 0.2rem;
+}
+.section .s-container .exam-box  .test-note{
+  
+  font-size: 0.8rem;
+  padding-bottom: 44px;
+  border-bottom: 2px solid #666;
+  
+  
+}
+
+
+/* Test-form css bölümü */
+
+
+.section .s-container .form-box {
+  box-sizing: border-box;
+  padding: 40px 30px 24px 30px;
+  height: 100%;
+  width: 100%;
+}
+
+.section .s-container .form-box h1{
+  margin: 0px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #27aae1;
+}
+
+.section .s-container .form-box .brackets{
+  width: 100%;
+  margin-bottom: 20px;
+  height: 5px;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+
+}
+.section .s-container .form-box .brackets .border{
+  width: 100px;
+  height: 5px;
+  background: #EEE;
+  border-radius: 3px;
+}
+
+.section .s-container .form-box .form-description{
+  width: 100%;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.section .s-container .form-box .project-form{
+  width: 100%;
+  height: 340px;
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+.section .s-container .form-box .project-form .form-left-inputs{
+  width: 49%;
+  height: 270px;
+  margin: 0;
+  display: inline-block;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.section .s-container .form-box .project-form .form-left-inputs .form-input {
+  margin-top: 16px;
+}
+.section .s-container .form-box .project-form .form-left-inputs .form-input fieldset{
+  width: 100%;
+  display: inline-block;
+  margin: 1px;
+  padding: 0;
+  border: solid 1px #ddd;
+ 
+}
+.section .s-container .form-box .project-form .form-left-inputs .form-input input{
+  width: 100%;
+}
+.section .s-container .form-box .project-form .form-left-inputs .form-input select option{
+  width: 100%;
+}
+.section .s-container .form-box .project-form .submit-box{
+  width: 100%;
+  display: inline-block;
+  margin-top: 16px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+.section .s-container .form-box .project-form .submit-box .submit-button{
+  border: none;
+  width: 260px;
+  background: #27aae1;
+  padding-left: 50px ;
+  padding-right: 50px;
+  font-size: 1.2rem;
+  line-height: 3.2rem;
+  box-sizing: border-box;
+  border-radius: 6px;
+  
+  color: #fff;
+}
+.section .s-container .form-box .project-form .submit-box .submit-button:hover{
+  background: #fff;
+  color: #27aae1;
+  transition: 0.4s ease-in;
+}
+
