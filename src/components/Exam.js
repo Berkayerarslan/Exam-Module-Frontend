@@ -7,10 +7,16 @@ function Exam() {
   const [questions, setquestions] = useState(data);
   const [checkedQuestion, setcheckedQuestion] = useState(null);
   const [checkedAnswer, setcheckedAnswer] = useState([]);
-  const [checkedOption, setcheckedOption] = useState(null);
+  const [checkedOption, setcheckedOption] = useState(0);
+
+  const [timer, settimer] = useState(null)
+
+
+  
 
   useEffect(() => {
       console.log('checkedAnswer',checkedAnswer)
+      
     const checkedQuestion1 = questions.find((x) => x.answerNo === pageNo);
     setcheckedQuestion(checkedQuestion1);
     const checkedOption1 = checkedAnswer.find(
@@ -18,6 +24,9 @@ function Exam() {
     );
     setcheckedOption(checkedOption1);
   }, [pageNo,checkedAnswer]);
+
+  
+  
 
   // api verildiğinde işlenicek fonksiyon
   // const getExam = () => {
@@ -80,7 +89,7 @@ function Exam() {
           <div className="exam-title">
             <span>{checkedQuestion?.answerNo}. Soru</span>
             <p>
-              {" "}
+              {timer}
               Lütfen sağlıklı bir değerlendirme için bilmediğiniz sorularu boş
               bırakın
             </p>
