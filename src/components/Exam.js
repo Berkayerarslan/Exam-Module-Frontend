@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Exams } from "../data/Exams";
+import AnswerTest from "./AnswerTest";
+import Button from "./Button";
+import ProgressBar from "./ProgressBar";
+import Timer from "./Timer";
+import { useTimer } from "react-timer-hook";
+
 function Exam() {
   const data = Exams;
   // console.log(data.find(x => x.answerNo === 1));
@@ -8,15 +14,26 @@ function Exam() {
   const [checkedQuestion, setcheckedQuestion] = useState(null);
   const [checkedAnswer, setcheckedAnswer] = useState([]);
   const [checkedOption, setcheckedOption] = useState(0);
+  const [remainingTime, setremainingTime] = useState({hours:0,minutes:0,seconds:0})
+  const expiryTimestamp = new Date();
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 6000);
 
-  const [timer, settimer] = useState(null)
-
-
-  
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart
+  } = useTimer({
+    expiryTimestamp,
+    onExpire: () => console.warn("onExpire called")
+  });
 
   useEffect(() => {
-      console.log('checkedAnswer',checkedAnswer)
-      
     const checkedQuestion1 = questions.find((x) => x.answerNo === pageNo);
     setcheckedQuestion(checkedQuestion1);
     const checkedOption1 = checkedAnswer.find(
@@ -24,6 +41,23 @@ function Exam() {
     );
     setcheckedOption(checkedOption1);
   }, [pageNo,checkedAnswer]);
+  
+  useEffect(() => {
+    setremainingTime({
+      hours:hours,
+      seconds:seconds,
+      minutes:minutes
+    })
+    console.log(remainingTime)
+  },[seconds])
+
+  useEffect(() => {
+    console.log("Sayfa açıldı")
+  
+    
+  },)
+  
+  
 
   
   
@@ -82,14 +116,33 @@ function Exam() {
     console.log(checkedAnswer);
   };
 
+  const handleTime = () => {
+    resume()
+    setremainingTime({
+      hours:hours,
+      seconds:seconds,
+      minutes:minutes
+    })
+    
+  }
+  const handleTimeStop = () => {
+    pause();
+    setremainingTime({
+      hours:hours,
+      seconds:seconds,
+      minutes:minutes
+    });
+
+  }
+
   return (
     <div className="section">
       <div className="s-container">
         <div className="exam-box">
           <div className="exam-title">
             <span>{checkedQuestion?.answerNo}. Soru</span>
+            
             <p>
-              {timer}
               Lütfen sağlıklı bir değerlendirme için bilmediğiniz sorularu boş
               bırakın
             </p>
@@ -101,56 +154,61 @@ function Exam() {
             <p></p>
           </div>
           <div className="test-question">{checkedQuestion?.question}</div>
-
-          <div className="test-answers">
-            {checkedQuestion &&
-              checkedQuestion.answers.map((item, key) => {
-                console.log(item,checkedOption)
-                return (
-                  <div class="test-answer">
-                    <input
-                    id={item.id}
-                      key={key}
-                      type="radio"
-                      name="checkbox"
-                      checked={ item.id === checkedOption?.answerId}
-                      onClick={(e) => handleAnswerChange(e)}
-                    />
-                    <label htmlFor="">{item?.answer}</label>
-                  </div>
-                );
-              })}
-          </div>
+          
+           <AnswerTest 
+            onClick={handleAnswerChange}
+            data = {{
+              checkedQuestion: checkedQuestion,
+              checkedOption: checkedOption
+            }}
+            type='radio'
+            name='checkbox'
+            />
           <div className="test-buttons">
-            <a onClick={(e) => handleGoPrev(e)}>
-              <i
-                class="bi bi-chevron-double-left"
-                style={{ marginRight: "5px" }}
-              ></i>
-              <span>ÖNCEKİ</span>
-            </a>
-            <a onClick={(e) => handlGoNext(e)}>
-              <span>SONRAKİ</span>
-              <i
-                class="bi bi-chevron-double-right"
-                style={{ marginLeft: "5px" }}
-              ></i>
-            </a>
+            <Button 
+            onClick = {handleGoPrev} 
+            class="bi bi-chevron-double-left"
+            text="ÖNCEKİ"
+            />
+            <Button 
+            onClick = {handlGoNext} 
+            class="bi bi-chevron-double-right"
+            text="SONRAKİ"
+            
+            />         
           </div>
-          <div className="test-progressbar">
-            <p>
-              İLERLEME ({pageNo}/{questions.length})
-            </p>
-            <div className="progressbar">
-              <div
-                style={{ width: `${(pageNo / questions.length) * 100}` + "%" }}
-              ></div>
-            </div>
-          </div>
+          <ProgressBar
+          data={{
+            numerator: pageNo,
+            denominator: questions.length           
+          }}
+          text="İLERLEME"
+          />
           <div className="test-note">
             Lütfen sağlıklı bir değerlendirme için bilmediğiniz soruları boş
             bırakınız
           </div>
+          <button onClick={()=> handleTime()}>başla</button>
+          <button onClick={()=> handleTimeStop()}>dur</button>
+
+          <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: "20px" }}>
+        <span>{remainingTime.hours}</span>:<span>{remainingTime.minutes}</span>:
+        <span>{remainingTime.seconds}</span>
+      </div>
+      {/* <p>{isRunning ? "Running" : "Not running"}</p> */}
+      {/* <button
+        onClick={() => {
+          // Restarts to 5 minutes timer
+          const time = new Date();
+          time.setSeconds(time.getSeconds() + 300);
+          restart(time);
+        }}
+      >
+        Restart
+      </button> */}
+    </div>
+          
         </div>
       </div>
     </div>
