@@ -3,6 +3,7 @@ export const Exams = [
         id: 4, 
         question: "My mother’s manager……….speak three languages.",
         answerNo: 1,
+        questionType:"Test",
         answers: [ 
             {
                 id:1,
@@ -28,6 +29,7 @@ export const Exams = [
         id: 5, 
         question: "I .... homework everyday",
         answerNo: 2,
+        questionType:"MultiChoice",
         answers: [ 
             {
                 id:5,
@@ -53,6 +55,7 @@ export const Exams = [
         id: 6, 
         question: "I ... a basketball now",
         answerNo: 3,
+        questionType:'Test',
         answers: [ 
             {
                 id:9,
@@ -78,6 +81,7 @@ export const Exams = [
         id: 7, 
         question: "Listen! There is……..at the door. Let’s open it and see who it is!",
         answerNo: 4,
+        questionType:"MultiChoice",
         answers: [ 
             {
                 id:13,
@@ -104,6 +108,7 @@ export const Exams = [
         id: 7, 
         question: "Chairs are……….than armchairs.",
         answerNo: 5,
+        questionType:"Test",
         answers: [ 
             {
                 id:17,
