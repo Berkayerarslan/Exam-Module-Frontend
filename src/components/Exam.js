@@ -6,6 +6,7 @@ import ProgressBar from "./ProgressBar";
 import Timer from "./Timer";
 import { useTimer } from "react-timer-hook";
 import MultipleAnswer from "./MultipleAnswer";
+import { set } from "react-hook-form";
 
 function Exam() {
   const data = Exams;
@@ -15,9 +16,13 @@ function Exam() {
   const [checkedQuestion, setcheckedQuestion] = useState(null);
 
   const [checkedAnswer, setcheckedAnswer] = useState([]);
-  console.log(checkedAnswer);
+  console.log('checkedAnswers',checkedAnswer);
+  const [checkedMultiAnswer,setcheckedMultiAnswer] = useState([]);
+  console.log('Multi : ',checkedMultiAnswer)
   const [checkedOption, setcheckedOption] = useState(0);
+  console.log('Option',checkedOption)
   const [checkedOptions, setcheckedOptions] = useState([]);
+  console.log('Options',checkedOptions)
   const [remainingTime, setremainingTime] = useState({
     hours: 0,
     minutes: 0,
@@ -51,12 +56,16 @@ function Exam() {
       console.log(checkedOption1);
       setcheckedOption(checkedOption1);
     }
-    // else if(checkedQuestion === 'MultiChoice'){
-    //   const checkedOptions1 = checkedAnswer.answerId.filter((x) => x === )
-    // }
+    else if(checkedQuestion.questionType === 'MultiChoice'){
+      console.log('tüm cevaplar',checkedMultiAnswer)
+      console.log(checkedQuestion)
+      const checkedOptions1 = checkedMultiAnswer.filter((x) => x.questionId === checkedQuestion.id )
+      console.log('seçili cevap',checkedOptions1);
+      setcheckedOptions(checkedOptions1);
+    }
 
     // console.log(checkedQuestion)
-  }, [pageNo, checkedAnswer]);
+  }, [pageNo, checkedAnswer,checkedMultiAnswer]);
 
   useEffect(() => {
     setremainingTime({
@@ -99,10 +108,11 @@ function Exam() {
   };
   const handleAnswerChange = (event) => {
     // console.log(event.target.id);
-    console.log(checkedQuestion);
+    
     const id = event.target.id;
 
     if (checkedQuestion.questionType === "Test") {
+      console.log('Type',checkedQuestion.questionType)
       const tempCheckedAnswers = checkedAnswer;
       const isExists = tempCheckedAnswers.find(
         (answer) => answer.questionId === checkedQuestion.id
@@ -127,24 +137,58 @@ function Exam() {
         ]);
       }
     } else if (checkedQuestion.questionType === "MultiChoice") {
-      const tempCheckedAnswers = checkedAnswer;
+      console.log('type',checkedQuestion.questionType)
+      const tempCheckedAnswers = checkedMultiAnswer;
       const isExists = tempCheckedAnswers.filter(
-        (answer) => answer.questionId !== checkedQuestion.id
+        (answer) => answer.questionId === checkedQuestion.id
       );
+      console.log('isexists',isExists)
+      if (isExists.length > 0) {
+        
+        const willSaveAnswers = tempCheckedAnswers.map((answer) => {
+          if(answer.answerId === Number(id)){
+            answer.answerId = -1
+          }
+          return answer
+        })
+        console.log('kaydedilecek sorular',willSaveAnswers)
+        const willSaveAnswers2 = willSaveAnswers?.answerId.filter((x) => x.answerId !== -1);
+        console.log('kaydedilecek sorular son hali',willSaveAnswers2)
+        setcheckedMultiAnswer(willSaveAnswers2)
+        // console.log(isExists)
+        // const willSaveAnswers = tempCheckedAnswers.map((answer) => {
+        //     answer.answerIds.map((itemId) => {
+        //       if(itemId === id){
+        //         itemId = -1;
+        //       }
+        //       else {
+                
+        //       }
+        //       return itemId
+        //     }) 
+        //   return answer
+        // })
 
-      // if(isExists){
-      //   const willSaveAnswers = tempCheckedAnswers.map((answer) => {
-      //     answer.answerIds.filter(x => x.answerId === id)
-      //     if()
-      //   })
 
-      setcheckedAnswer([
-        ...checkedAnswer,
-        {
-          questionId: checkedQuestion.id,
-          answerIds: [Number(id)],
-        },
-      ]);
+        // const willSaveAnswers = tempCheckedAnswers.map((answer) => {
+        //   if (answer.questionId === isExists.questionId) {
+        //     answer.answerId = Number(id);
+        //   }
+        //   return answer;
+        // });
+        // setcheckedMultiAnswer(willSaveAnswers);
+      }
+      else {
+        setcheckedMultiAnswer([
+          ...checkedMultiAnswer,
+          {
+            questionId: checkedQuestion.id,
+            answerId: Number(id)
+          },
+        ]);
+      }
+
+     
     }
 
     // console.log(checkedAnswer);
@@ -231,25 +275,15 @@ function Exam() {
             bırakınız
           </div>
           <button onClick={() => handleTime()}>başla</button>
-          <button onClick={() => handleTimeStop()}>dur</button>
+          <button onClick={() => handleTimeStop()}>dur</button> */}
 
-          <div style={{ textAlign: "center" }}>
+           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "20px" }}>
               <span>{remainingTime.hours}</span>:
               <span>{remainingTime.minutes}</span>:
               <span>{remainingTime.seconds}</span>
             </div>
-            {/* <p>{isRunning ? "Running" : "Not running"}</p> */}
-            {/* <button
-        onClick={() => {
-          // Restarts to 5 minutes timer
-          const time = new Date();
-          time.setSeconds(time.getSeconds() + 300);
-          restart(time);
-        }}
-      >
-        Restart
-      </button> */}
+            
           </div>
         </div>
       </div>

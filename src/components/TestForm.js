@@ -9,6 +9,8 @@ export const TestForm = () => {
 //   const [phoneNumber, setphoneNumber] = useState(null);
 
 const [jobPositons, setjobPositons] = useState()
+const [isCorrect,setisCorrect] = useState(false)
+console.log(isCorrect)
   const {
     register,
     handleSubmit,
@@ -19,8 +21,12 @@ const [jobPositons, setjobPositons] = useState()
 
   const onSubmit = (data) => {
       console.log(data)
+      console.log(errors)
     if(data){
         navigate('/test-basla/test')
+    }
+    else {
+      setisCorrect(prev => !prev)    
     }
   };
   console.log(errors)
@@ -51,7 +57,11 @@ const [jobPositons, setjobPositons] = useState()
                     placeholder="Ad Soyad"
                     {...register("fullName", { required: true, maxLength: 80 })}
                   />
+                   <label>
+                    <p style={{color:'red'}}>{errors.fullName && 'Hatalı ad soyad girişi'}</p>
+                  </label>
                 </div>
+                
                 <div className="form-input">
                   <label>
                     <p>E-Mail</p>
@@ -64,6 +74,9 @@ const [jobPositons, setjobPositons] = useState()
                       pattern: /^\S+@\S+$/i,
                     })}
                   />
+                  <label>
+                    <p style={{color:'red'}}>{errors.email && 'Hatalı email girişi'}</p>
+                  </label>
                 </div>
                 <div className="form-input">
                   <label>
@@ -78,6 +91,9 @@ const [jobPositons, setjobPositons] = useState()
                       maxLength: 12,
                     })}
                   />
+                  <label>
+                    <p style={{color:'red'}}>{errors.mobileNumber && 'Hatalı giriş'}</p>
+                  </label>
                 </div>
 
                 {/* <div className="form-input">
@@ -128,6 +144,9 @@ const [jobPositons, setjobPositons] = useState()
                     <option value="Dr">Dr</option>
                   </select>
                 </div>
+                <label>
+                    <p >{errors.register && 'Hatalı giriş'}</p>
+                  </label>
                 <div className="form-input">
                   <label>
                     <p>Çalıştığınız Sektör</p>
@@ -139,6 +158,9 @@ const [jobPositons, setjobPositons] = useState()
                     <option value="Dr">Dr</option>
                   </select>
                 </div>
+                <label>
+                    <p>{errors.register && 'Hatalı giriş'}</p>
+                  </label>
 
                 {/* <div className="form-input">
                   <label>
@@ -163,6 +185,8 @@ const [jobPositons, setjobPositons] = useState()
                 <input className="submit-button" type="submit" value='TESTE BAŞLAYIN'></input>
                 
               </div>
+              {isCorrect === true ? <p style={{color:'red',height:'10px'}}>Hatalı girişler var </p> : <p></p>}
+
             </form>
           </div>
         </div>
