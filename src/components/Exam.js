@@ -7,6 +7,8 @@ import Timer from "./Timer";
 import { useTimer } from "react-timer-hook";
 import MultipleAnswer from "./MultipleAnswer";
 import { set } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import AnswerText from "./AnswerText";
 
 function Exam() {
   const data = Exams;
@@ -16,35 +18,39 @@ function Exam() {
   const [checkedQuestion, setcheckedQuestion] = useState(null);
 
   const [checkedAnswer, setcheckedAnswer] = useState([]);
-  console.log('checkedAnswers',checkedAnswer);
+  // console.log('checkedAnswers',checkedAnswer);
   const [checkedMultiAnswer,setcheckedMultiAnswer] = useState([]);
   console.log('Multi : ',checkedMultiAnswer)
   const [checkedOption, setcheckedOption] = useState(0);
-  console.log('Option',checkedOption)
+  // console.log('Option',checkedOption)
   const [checkedOptions, setcheckedOptions] = useState([]);
-  console.log('Options',checkedOptions)
+  // console.log('Options',checkedOptions)
+  const [checkedTextAnswer,setcheckedTextAnswer] = useState([])
+  console.log(checkedTextAnswer);
   const [remainingTime, setremainingTime] = useState({
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
-  const expiryTimestamp = new Date();
-  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 6000);
+  // const expiryTimestamp = new Date();
+  // expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 6000);
 
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
-    expiryTimestamp,
-    onExpire: () => console.warn("onExpire called"),
-  });
+  // const {
+  //   seconds,
+  //   minutes,
+  //   hours,
+  //   days,
+  //   isRunning,
+  //   start,
+  //   pause,
+  //   resume,
+  //   restart,
+  // } = useTimer({
+  //   expiryTimestamp,
+  //   onExpire: () => console.warn("onExpire called"),
+  // });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkedQuestion1 = questions.find((x) => x.answerNo === pageNo);
@@ -57,27 +63,37 @@ function Exam() {
       setcheckedOption(checkedOption1);
     }
     else if(checkedQuestion.questionType === 'MultiChoice'){
-      console.log('tüm cevaplar',checkedMultiAnswer)
-      console.log(checkedQuestion)
+      // console.log('tüm cevaplar',checkedMultiAnswer)
+      // console.log(checkedQuestion)
       const checkedOptions1 = checkedMultiAnswer.filter((x) => x.questionId === checkedQuestion.id )
       console.log('seçili cevap',checkedOptions1);
       setcheckedOptions(checkedOptions1);
     }
 
     // console.log(checkedQuestion)
-  }, [pageNo, checkedAnswer,checkedMultiAnswer]);
-
-  useEffect(() => {
-    setremainingTime({
-      hours: hours,
-      seconds: seconds,
-      minutes: minutes,
-    });
-  }, [seconds]);
+  }, [pageNo, checkedAnswer,checkedMultiAnswer,checkedQuestion]);
 
   // useEffect(() => {
+  //   if(checkedQuestion.questionType === 'MultiChoice'){
+  //     // console.log('tüm cevaplar',checkedMultiAnswer)
+  //     // console.log(checkedQuestion)
+  //     const checkedOptions1 = checkedMultiAnswer.filter((x) => x.questionId === checkedQuestion.id )
+  //     console.log('seçili cevap',checkedOptions1);
+  //     setcheckedOptions(checkedOptions1);
+  //   }
+  
+    
+  // }, [checkedQuestion])
+  
 
-  // },[])
+  // useEffect(() => {
+  //   setremainingTime({
+  //     hours: hours,
+  //     seconds: seconds,
+  //     minutes: minutes,
+  //   });
+  // }, [seconds]);
+
 
   // api verildiğinde işlenicek fonksiyon
   // const getExam = () => {
@@ -137,48 +153,18 @@ function Exam() {
         ]);
       }
     } else if (checkedQuestion.questionType === "MultiChoice") {
-      console.log('type',checkedQuestion.questionType)
+      // console.log(id)
       const tempCheckedAnswers = checkedMultiAnswer;
-      const isExists = tempCheckedAnswers.filter(
-        (answer) => answer.questionId === checkedQuestion.id
-      );
-      console.log('isexists',isExists)
-      if (isExists.length > 0) {
-        
-        const willSaveAnswers = tempCheckedAnswers.map((answer) => {
-          if(answer.answerId === Number(id)){
-            answer.answerId = -1
-          }
-          return answer
-        })
-        console.log('kaydedilecek sorular',willSaveAnswers)
-        const willSaveAnswers2 = willSaveAnswers?.answerId.filter((x) => x.answerId !== -1);
-        console.log('kaydedilecek sorular son hali',willSaveAnswers2)
-        setcheckedMultiAnswer(willSaveAnswers2)
-        // console.log(isExists)
-        // const willSaveAnswers = tempCheckedAnswers.map((answer) => {
-        //     answer.answerIds.map((itemId) => {
-        //       if(itemId === id){
-        //         itemId = -1;
-        //       }
-        //       else {
-                
-        //       }
-        //       return itemId
-        //     }) 
-        //   return answer
-        // })
+      const isExists = tempCheckedAnswers.find((x) => x.answerId === Number(id))
+      // console.log('isexists',isExists)
 
-
-        // const willSaveAnswers = tempCheckedAnswers.map((answer) => {
-        //   if (answer.questionId === isExists.questionId) {
-        //     answer.answerId = Number(id);
-        //   }
-        //   return answer;
-        // });
-        // setcheckedMultiAnswer(willSaveAnswers);
+      if(isExists){
+        const temp = checkedMultiAnswer.filter((x)=> x.answerId !== Number(id) )
+        // console.log('eklenicek değer',temp)
+        setcheckedMultiAnswer(temp)
       }
       else {
+        // console.log('ekleme işlemi')
         setcheckedMultiAnswer([
           ...checkedMultiAnswer,
           {
@@ -186,30 +172,30 @@ function Exam() {
             answerId: Number(id)
           },
         ]);
-      }
-
-     
+      }     
     }
-
-    // console.log(checkedAnswer);
   };
 
-  const handleTime = () => {
-    resume();
-    setremainingTime({
-      hours: hours,
-      seconds: seconds,
-      minutes: minutes,
-    });
-  };
-  const handleTimeStop = () => {
-    pause();
-    setremainingTime({
-      hours: hours,
-      seconds: seconds,
-      minutes: minutes,
-    });
-  };
+  // const handleTime = () => {
+  //   resume();
+  //   setremainingTime({
+  //     hours: hours,
+  //     seconds: seconds,
+  //     minutes: minutes,
+  //   });
+  // };
+  // const handleTimeStop = () => {
+  //   pause();
+  //   setremainingTime({
+  //     hours: hours,
+  //     seconds: seconds,
+  //     minutes: minutes,
+  //   });
+  // };
+
+  const handleFinishExam = () => {
+    navigate('/')
+  }
 
   return (
     <div className="section">
@@ -250,12 +236,34 @@ function Exam() {
               type="checkbox"
             />
           )}
+          {/* {checkedQuestion?.questionType === "MultiChoice" ?? (
+            <MultipleAnswer
+              onClick={handleAnswerChange}
+              data={{
+                checkedQuestion: checkedQuestion,
+                checkedOption: checkedOptions,
+              }}
+              type="checkbox"
+            />
+          )}
+          {checkedQuestion?.questionType === "Text" ?? (
+            <AnswerText
+             onChange={(e) => setcheckedTextAnswer(e.target.value)}
+             type="text"
+             data= {checkedTextAnswer}
+            />
+          )} */}
+
 
           <div className="test-buttons">
             <Button
               onClick={handleGoPrev}
               class="bi bi-chevron-double-left"
               text="ÖNCEKİ"
+            />
+            <Button
+              onClick={handleFinishExam}
+              text = "SINAVI BİTİR"
             />
             <Button
               onClick={handlGoNext}
@@ -274,8 +282,8 @@ function Exam() {
             Lütfen sağlıklı bir değerlendirme için bilmediğiniz soruları boş
             bırakınız
           </div>
-          <button onClick={() => handleTime()}>başla</button>
-          <button onClick={() => handleTimeStop()}>dur</button> */}
+          {/* <button onClick={() => handleTime()}>başla</button>
+          <button onClick={() => handleTimeStop()}>dur</button> 
 
            <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "20px" }}>
@@ -284,7 +292,7 @@ function Exam() {
               <span>{remainingTime.seconds}</span>
             </div>
             
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

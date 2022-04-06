@@ -130,31 +130,62 @@ export const Exams = [
         
 
         
-    }
+    },
+    // {
+    //     id: 8, 
+    //     question: "Chairs are……….than armchairs.",
+    //     answerNo: 6,
+    //     questionType:"Test",
+    //     answers: [ 
+    //         {
+    //             id:21,
+    //             answer:"less heavier"
+    //         },
+    //         {
+    //             id:22,
+    //             answer:"as heavy as"
+    //         },
+    //         {
+    //             id:23,
+    //             answer:"less heavy"
+    //         },
+    //         {
+    //             id:24,
+    //             answer:"the heaviest"
+    //         }
+    //     ],
+        
+        
+
+        
+    // },
+    // {
+    //     id: 9, 
+    //     question: "Chairs are……….than armchairs.",
+    //     answerNo: 7,
+    //     questionType:"Test",
+    //     answers: [ 
+    //         {
+    //             id:25,
+    //             answer:"less heavier"
+    //         },
+    //         {
+    //             id:26,
+    //             answer:"as heavy as"
+    //         },
+    //         {
+    //             id:27,
+    //             answer:"less heavy"
+    //         },
+    //         {
+    //             id:28,
+    //             answer:"the heaviest"
+    //         }
+    //     ],
+        
+
+        
+    // }
 
 ]
 
-// export const users = [
-//     {
-//         "id": 1,
-//         "name": "Leanne Graham",
-//         "username": "Bret",
-//         "email": "Sincere@april.biz",
-//         "address": {
-//             "street": "Kulas Light",
-//             "suite": "Apt. 556",
-//             "city": "Gwenborough",
-//             "zipcode": "92998-3874",
-//             "geo": {
-//                 "lat": "-37.3159",
-//                 "lng": "81.1496"
-//             }
-//         },
-//         "phone": "1-770-736-8031 x56442",
-//         "website": "hildegard.org",
-//         "company": {
-//             "name": "Romaguera-Crona",
-//             "catchPhrase": "Multi-layered client-server neural-net",
-//             "bs": "harness real-time e-markets"
-//         }
-//     }]
