@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import AnswerTest from './AnswerTest'
 
 
 const TimerDeneme = () => {
@@ -30,6 +31,10 @@ useEffect(() => {
             <button onClick={() => settimeOn(true)}>resume</button>
             <button onClick={() => settime(0)}>reset</button>
         </div>
+        <AnswerTest
+        />
+
+        
 
     </div>
   )
