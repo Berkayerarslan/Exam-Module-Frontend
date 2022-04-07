@@ -9,6 +9,7 @@ import MultipleAnswer from "./MultipleAnswer";
 import { set } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AnswerText from "./AnswerText";
+import PopUp from "./PopUp";
 
 function Exam() {
   const data = Exams;
@@ -19,21 +20,24 @@ function Exam() {
 
   const [checkedAnswer, setcheckedAnswer] = useState([]);
   // console.log('checkedAnswers',checkedAnswer);
-  const [checkedMultiAnswer,setcheckedMultiAnswer] = useState([]);
-  console.log('Multi : ',checkedMultiAnswer)
+  const [checkedMultiAnswer, setcheckedMultiAnswer] = useState([]);
+  console.log("Multi : ", checkedMultiAnswer);
   const [checkedOption, setcheckedOption] = useState(0);
   // console.log('Option',checkedOption)
   const [checkedOptions, setcheckedOptions] = useState([]);
   // console.log('Options',checkedOptions)
-  const [checkedTextAnswer,setcheckedTextAnswer] = useState([])
+  const [checkedTextAnswer, setcheckedTextAnswer] = useState([]);
   console.log(checkedTextAnswer);
   const [remainingTime, setremainingTime] = useState({
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
-  // const expiryTimestamp = new Date();
-  // expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 6000);
+  const [visibility, setVisibility] = useState(false);
+  const [isConfirm, setisConfirm] = useState(false);
+  console.log(remainingTime);
+  const expiryTimestamp = new Date();
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 6000);
 
   // const {
   //   seconds,
@@ -61,17 +65,18 @@ function Exam() {
       );
       console.log(checkedOption1);
       setcheckedOption(checkedOption1);
-    }
-    else if(checkedQuestion.questionType === 'MultiChoice'){
+    } else if (checkedQuestion.questionType === "MultiChoice") {
       // console.log('tüm cevaplar',checkedMultiAnswer)
       // console.log(checkedQuestion)
-      const checkedOptions1 = checkedMultiAnswer.filter((x) => x.questionId === checkedQuestion.id )
-      console.log('seçili cevap',checkedOptions1);
+      const checkedOptions1 = checkedMultiAnswer.filter(
+        (x) => x.questionId === checkedQuestion.id
+      );
+      console.log("seçili cevap", checkedOptions1);
       setcheckedOptions(checkedOptions1);
     }
 
     // console.log(checkedQuestion)
-  }, [pageNo, checkedAnswer,checkedMultiAnswer,checkedQuestion]);
+  }, [pageNo, checkedAnswer, checkedMultiAnswer, checkedQuestion]);
 
   // useEffect(() => {
   //   if(checkedQuestion.questionType === 'MultiChoice'){
@@ -81,10 +86,8 @@ function Exam() {
   //     console.log('seçili cevap',checkedOptions1);
   //     setcheckedOptions(checkedOptions1);
   //   }
-  
-    
+
   // }, [checkedQuestion])
-  
 
   // useEffect(() => {
   //   setremainingTime({
@@ -93,7 +96,6 @@ function Exam() {
   //     minutes: minutes,
   //   });
   // }, [seconds]);
-
 
   // api verildiğinde işlenicek fonksiyon
   // const getExam = () => {
@@ -124,11 +126,11 @@ function Exam() {
   };
   const handleAnswerChange = (event) => {
     // console.log(event.target.id);
-    
+
     const id = event.target.id;
 
     if (checkedQuestion.questionType === "Test") {
-      console.log('Type',checkedQuestion.questionType)
+      console.log("Type", checkedQuestion.questionType);
       const tempCheckedAnswers = checkedAnswer;
       const isExists = tempCheckedAnswers.find(
         (answer) => answer.questionId === checkedQuestion.id
@@ -155,25 +157,31 @@ function Exam() {
     } else if (checkedQuestion.questionType === "MultiChoice") {
       // console.log(id)
       const tempCheckedAnswers = checkedMultiAnswer;
-      const isExists = tempCheckedAnswers.find((x) => x.answerId === Number(id))
+      const isExists = tempCheckedAnswers.find(
+        (x) => x.answerId === Number(id)
+      );
       // console.log('isexists',isExists)
 
-      if(isExists){
-        const temp = checkedMultiAnswer.filter((x)=> x.answerId !== Number(id) )
+      if (isExists) {
+        const temp = checkedMultiAnswer.filter(
+          (x) => x.answerId !== Number(id)
+        );
         // console.log('eklenicek değer',temp)
-        setcheckedMultiAnswer(temp)
-      }
-      else {
+        setcheckedMultiAnswer(temp);
+      } else {
         // console.log('ekleme işlemi')
         setcheckedMultiAnswer([
           ...checkedMultiAnswer,
           {
             questionId: checkedQuestion.id,
-            answerId: Number(id)
+            answerId: Number(id),
           },
         ]);
-      }     
+      }
     }
+  };
+  const popupCloseHandler = () => {
+    setVisibility(false);
   };
 
   // const handleTime = () => {
@@ -192,10 +200,19 @@ function Exam() {
   //     minutes: minutes,
   //   });
   // };
-
-  const handleFinishExam = () => {
-    navigate('/')
+  const finishExam = () => {
+    setisConfirm(true)
+    if(isConfirm === true){
+      const fullAnswer = checkedAnswer.concat(checkedMultiAnswer);
+      console.log(fullAnswer);
+      navigate('/')
+    }
   }
+  const handleFinishExam = () => {
+    setVisibility(true);
+   
+    
+  };
 
   return (
     <div className="section">
@@ -236,6 +253,7 @@ function Exam() {
               type="checkbox"
             />
           )}
+
           {/* {checkedQuestion?.questionType === "MultiChoice" ?? (
             <MultipleAnswer
               onClick={handleAnswerChange}
@@ -254,17 +272,13 @@ function Exam() {
             />
           )} */}
 
-
           <div className="test-buttons">
             <Button
               onClick={handleGoPrev}
               class="bi bi-chevron-double-left"
               text="ÖNCEKİ"
             />
-            <Button
-              onClick={handleFinishExam}
-              text = "SINAVI BİTİR"
-            />
+            <Button onClick={handleFinishExam} text="SINAVI BİTİR" />
             <Button
               onClick={handlGoNext}
               class="bi bi-chevron-double-right"
@@ -282,6 +296,19 @@ function Exam() {
             Lütfen sağlıklı bir değerlendirme için bilmediğiniz soruları boş
             bırakınız
           </div>
+          <PopUp
+            onClose={popupCloseHandler}
+            show={visibility}
+            title="Sınavı Tamamladınız mı?"
+          >
+            <h1>İşaretlemediğiniz Sorular Var!</h1>
+            <Button
+            onClick={finishExam}
+            
+            text="BİTİR"
+            />
+          </PopUp>
+          <button onClick={() => setVisibility(true)}>open</button>
           {/* <button onClick={() => handleTime()}>başla</button>
           <button onClick={() => handleTimeStop()}>dur</button> 
 

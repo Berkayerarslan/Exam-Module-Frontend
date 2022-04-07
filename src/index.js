@@ -5,14 +5,14 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { TestForm } from './components/TestForm';
 import ExamPage from './pages/ExamPage';
-import TimerDeneme from './components/TimerDeneme';
+import FinishExam from './components/FinishExam';
 
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path='' element={<TimerDeneme></TimerDeneme>}/>
+        <Route path='' element={<FinishExam></FinishExam>}/>
         <Route path='test-basla' element={<TestForm/>}/>
         <Route path='test-basla/test' element={<ExamPage/>}></Route>
       </Routes>
